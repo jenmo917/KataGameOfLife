@@ -1,14 +1,20 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Board {
 
+    private final int numberOfCols;
+    private final int numberOfRows;
     //Cell[x][y]
     private Cell[][] cells;
 
     public Board(String[][] board) {
 
-        int numberOfCols = board[0].length;
-        int numberOfRows = board.length;
-        this.cells = new Cell[numberOfCols][numberOfRows];
+        numberOfCols = board[0].length;
+        numberOfRows = board.length;
+
+        cells = new Cell[numberOfCols][numberOfRows];
 
         for (int row = 0; row < numberOfRows; row++) {
             for (int col = 0; col < numberOfCols; col++) {
@@ -17,28 +23,24 @@ public class Board {
         }
     }
 
-    public Cell[] getNeighbours(Cell cell) {
-        Cell[] neighbours = new Cell[3];
+    public List<Cell> getNeighbours(Cell cell) {
 
-        if (cell.getX() == 0 && cell.getY() == 0) {
-            neighbours[0] = cells[1][0];
-            neighbours[1] = cells[1][1];
-            neighbours[2] = cells[0][1];
-        }
-        if (cell.getX() == 7 && cell.getY() == 0) {
-            neighbours[0] = cells[6][0];
-            neighbours[1] = cells[6][1];
-            neighbours[2] = cells[7][1];
-        }
-        if (cell.getX() == 0 && cell.getY() == 3) {
-            neighbours[0] = cells[0][2];
-            neighbours[1] = cells[1][2];
-            neighbours[2] = cells[1][3];
-        }
-        if (cell.getX() == 7 && cell.getY() == 3) {
-            neighbours[0] = cells[6][3];
-            neighbours[1] = cells[6][2];
-            neighbours[2] = cells[7][2];
+        List<Cell> neighbours = new ArrayList<>();
+
+        int startRow = Math.max(cell.getY() - 1, 0);
+        int endRow = Math.min(cell.getY() + 1, numberOfRows - 1);
+
+        for (int row = startRow; row <= endRow; row++) {
+
+            int startColumn = Math.max(0, cell.getX() - 1);
+            int endColumn = Math.min(numberOfCols - 1, cell.getX() + 1);
+
+            for (int column = startColumn; column <= endColumn; column++) {
+                Cell e = cells[column][row];
+                if (cell != e) {
+                    neighbours.add(e);
+                }
+            }
         }
         return neighbours;
     }
@@ -47,4 +49,8 @@ public class Board {
         return cells[x][y];
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this == obj;
+    }
 }
