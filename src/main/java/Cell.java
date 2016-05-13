@@ -26,4 +26,9 @@ public class Cell {
     public int getY() {
         return y;
     }
+
+    @Override
+    public String toString() {
+        return isAlive() ? "*" : ".";
+    }
 }

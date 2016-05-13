@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class Board {
+public class Board implements Cloneable {
 
-    private final int numberOfCols;
-    private final int numberOfRows;
+    private int numberOfCols;
+    private int numberOfRows;
     //Cell[x][y]
     private Cell[][] cells;
 
@@ -19,6 +18,18 @@ public class Board {
         for (int row = 0; row < numberOfRows; row++) {
             for (int col = 0; col < numberOfCols; col++) {
                 cells[col][row] = new Cell(col, row, board[row][col]);
+            }
+        }
+    }
+
+    public Board(int numberOfRows, int numberOfCols) {
+        this.numberOfCols = numberOfCols;
+        this.numberOfRows = numberOfRows;
+
+        cells = new Cell[numberOfCols][numberOfRows];
+        for (int row = 0; row < numberOfRows; row++) {
+            for (int col = 0; col < numberOfCols; col++) {
+                cells[col][row] = new Cell(col, row, ".");
             }
         }
     }
@@ -52,5 +63,32 @@ public class Board {
     @Override
     public boolean equals(Object obj) {
         return this == obj;
+    }
+
+    public List<Cell> getCells() {
+        List<Cell> cells = new ArrayList<>();
+        for (int row = 0; row < numberOfRows; row++) {
+            for (int col = 0; col < numberOfCols; col++) {
+                cells.add(this.cells[col][row]);
+            }
+        }
+        return cells;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int row = 0; row < numberOfRows; row++) {
+            for (int col = 0; col < numberOfCols; col++) {
+                sb.append(this.cells[col][row].toString());
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    protected Board clone() {
+        return new Board(numberOfRows, numberOfCols);
     }
 }
