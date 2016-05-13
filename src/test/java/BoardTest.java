@@ -1,8 +1,6 @@
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
@@ -13,16 +11,16 @@ public class BoardTest {
 
     private Board board;
     
-    private String[][] stringBoard = {
-            {".", ".", ".", ".", ".", ".", ".", "."},
-            {".", ".", ".", ".", "*", ".", ".", "."},
-            {".", ".", ".", "*", "*", ".", ".", "."},
-            {".", ".", ".", ".", ".", ".", ".", "."}
+    private boolean[][] booleanBoard = {
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, true, false, false, false},
+            {false, false, false, true, true, false, false, false},
+            {false, false, false, false, false, false, false, false}
     };
 
     @Before
     public void before() {
-        board = new Board(stringBoard);
+        board = new Board(booleanBoard);
     }
 
     @Test
@@ -161,4 +159,11 @@ public class BoardTest {
         assertTrue(neighboursA.contains(board.getCell(2, 2)));
         assertTrue(neighboursA.contains(board.getCell(2, 3)));
     }
+
+    @Test
+    public void testGetNumberOfAliveCells() throws Exception {
+        int cellsAlive = board.getNumberOfCellsAlive();
+        assertEquals(3, cellsAlive);
+    }
+
 }

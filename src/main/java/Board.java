@@ -1,14 +1,14 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Board implements Cloneable {
 
     private int numberOfCols;
     private int numberOfRows;
-    //Cell[x][y]
     private Cell[][] cells;
 
-    public Board(String[][] board) {
+    public Board(boolean[][] board) {
 
         numberOfCols = board[0].length;
         numberOfRows = board.length;
@@ -17,7 +17,8 @@ public class Board implements Cloneable {
 
         for (int row = 0; row < numberOfRows; row++) {
             for (int col = 0; col < numberOfCols; col++) {
-                cells[col][row] = new Cell(col, row, board[row][col]);
+                boolean isAlive = board[row][col];
+                cells[col][row] = new Cell(col, row, isAlive);
             }
         }
     }
@@ -29,7 +30,7 @@ public class Board implements Cloneable {
         cells = new Cell[numberOfCols][numberOfRows];
         for (int row = 0; row < numberOfRows; row++) {
             for (int col = 0; col < numberOfCols; col++) {
-                cells[col][row] = new Cell(col, row, ".");
+                cells[col][row] = new Cell(col, row, false);
             }
         }
     }
@@ -90,5 +91,35 @@ public class Board implements Cloneable {
     @Override
     protected Board clone() {
         return new Board(numberOfRows, numberOfCols);
+    }
+
+    public int getNumberOfCellsAlive() {
+        int alive = 0;
+        for (Cell cell : getCells()) {
+            if (cell.isAlive()) {
+                alive++;
+            }
+        }
+        return alive;
+    }
+
+    public int getNumberOfCellsDead() {
+        int dead = 0;
+        for (Cell cell : getCells()) {
+            if (!cell.isAlive()) {
+                dead++;
+            }
+        }
+        return dead;
+    }
+
+    public void generateRandomLife() {
+        for (int row = 0; row < numberOfRows; row++) {
+            for (int col = 0; col < numberOfCols; col++) {
+                Random random = new Random();
+                boolean alive = random.nextBoolean();
+                cells[col][row] = new Cell(col, row, alive);
+            }
+        }
     }
 }

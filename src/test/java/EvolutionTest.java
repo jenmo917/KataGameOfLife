@@ -10,18 +10,18 @@ public class EvolutionTest {
     // 3. Any live cell with two or three live neighbours lives on to the next generation.
     // 4. Any dead cell with exactly three live neighbours becomes a live cell.
 
-    private String[][] stringBoard = {
-            {".", ".", ".", ".", ".", ".", ".", "."},
-            {".", ".", ".", ".", ".", ".", ".", "."},
-            {".", ".", ".", ".", ".", ".", ".", "."},
-            {".", ".", ".", ".", ".", ".", ".", "."}
+    private boolean[][] booleanBoard = {
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false},
+            {false, false, false, false, false, false, false, false}
     };
 
     private Board board;
 
     @Before
     public void setUp() throws Exception {
-        board = new Board(stringBoard);
+        board = new Board(booleanBoard);
     }
 
     @Test

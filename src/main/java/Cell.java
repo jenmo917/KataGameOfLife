@@ -4,10 +4,10 @@ public class Cell {
     private final int y;
     private boolean alive;
 
-    public Cell(int x, int y, String status){
+    public Cell(int x, int y, boolean isAlive){
         this.x = x;
         this.y = y;
-        this.alive = status.equals("*");
+        this.alive = isAlive;
     }
 
 
