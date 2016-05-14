@@ -1,5 +1,5 @@
 
-public class Cell {
+public class Cell implements Cloneable {
     private final int x;
     private final int y;
     private boolean alive;
@@ -25,6 +25,11 @@ public class Cell {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    protected Cell clone() {
+        return new Cell(x, y, alive);
     }
 
     @Override

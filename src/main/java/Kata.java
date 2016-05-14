@@ -18,7 +18,6 @@ public class Kata {
         evolution.evolve(board);
         System.out.println(evolution.getEvolutionBoard().toString());
 
-
         evolveBestPossibleStartBoard();
 
     }
@@ -26,8 +25,10 @@ public class Kata {
     private static void evolveBestPossibleStartBoard() {
 
         Evolution evolution = new Evolution();
-        Board board = new Board(3, 7);
+
+        Board board = new Board(booleanBoard);
         board.generateRandomLife();
+
         evolution.evolve(board);
 
         int maxNumberOfAlive = 0;
@@ -35,33 +36,45 @@ public class Kata {
 
         Board maxAliveStartBoard = board.clone();
         Board maxDeadStartBoard = board.clone();
+        Board tempBoard = board.clone();
+
+        evolution.evolve(board);
 
         for (int i = 0; i < 100000; i++) {
+
             int numberOfAliveCells = evolution.getEvolutionBoard().getNumberOfCellsAlive();
             int numberOfDeadCells = evolution.getEvolutionBoard().getNumberOfCellsDead();
+
             if (numberOfAliveCells > maxNumberOfAlive) {
-                maxAliveStartBoard = evolution.getEvolutionBoard();
+                maxAliveStartBoard = tempBoard;
                 maxNumberOfAlive = evolution.getEvolutionBoard().getNumberOfCellsAlive();
             }
 
             if (numberOfDeadCells > maxNumberOfDead) {
-                maxDeadStartBoard = evolution.getEvolutionBoard();
+                maxDeadStartBoard = tempBoard;
                 maxNumberOfDead = numberOfDeadCells;
             }
 
             board.generateRandomLife();
+            tempBoard = board.clone();
             evolution.evolve(board);
         }
 
         System.out.println("Best possible start board");
-        System.out.println("Alive: " + maxAliveStartBoard.getNumberOfCellsAlive());
-        System.out.println("Dead: " + maxAliveStartBoard.getNumberOfCellsDead());
         System.out.println(maxAliveStartBoard.toString());
+        evolution.evolve(maxAliveStartBoard);
+        System.out.println("After evolution");
+        System.out.println("Alive: " + evolution.getEvolutionBoard().getNumberOfCellsAlive());
+        System.out.println("Dead: " + evolution.getEvolutionBoard().getNumberOfCellsDead());
+        System.out.println(evolution.getEvolutionBoard().toString());
 
         System.out.println("Worst possible start board");
-        System.out.println("Alive: " + maxDeadStartBoard.getNumberOfCellsAlive());
-        System.out.println("Dead: " + maxDeadStartBoard.getNumberOfCellsDead());
         System.out.println(maxDeadStartBoard.toString());
+        evolution.evolve(maxDeadStartBoard);
+        System.out.println("After evolution");
+        System.out.println("Alive: " + evolution.getEvolutionBoard().getNumberOfCellsAlive());
+        System.out.println("Dead: " + evolution.getEvolutionBoard().getNumberOfCellsDead());
+        System.out.println(evolution.getEvolutionBoard().toString());
     }
 
 }

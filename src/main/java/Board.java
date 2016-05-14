@@ -23,16 +23,10 @@ public class Board implements Cloneable {
         }
     }
 
-    public Board(int numberOfRows, int numberOfCols) {
-        this.numberOfCols = numberOfCols;
-        this.numberOfRows = numberOfRows;
-
-        cells = new Cell[numberOfCols][numberOfRows];
-        for (int row = 0; row < numberOfRows; row++) {
-            for (int col = 0; col < numberOfCols; col++) {
-                cells[col][row] = new Cell(col, row, false);
-            }
-        }
+    public Board(Cell[][] cells) {
+        this.numberOfRows = cells[0].length;
+        this.numberOfCols = cells.length;
+        this.cells = cells;
     }
 
     public List<Cell> getNeighbours(Cell cell) {
@@ -90,7 +84,20 @@ public class Board implements Cloneable {
 
     @Override
     protected Board clone() {
-        return new Board(numberOfRows, numberOfCols);
+        Cell[][] cloneOfCells = new Cell[numberOfCols][numberOfRows];
+        for (int row = 0; row < numberOfRows; row++) {
+            for (int col = 0; col < numberOfCols; col++) {
+                Cell cell = cells[col][row];
+                cloneOfCells[col][row] = cell.clone();
+            }
+        }
+        return new Board(cloneOfCells);
+    }
+
+    public void killAll() {
+        for (Cell cell : getCells()) {
+            cell.setAlive(false);
+        }
     }
 
     public int getNumberOfCellsAlive() {

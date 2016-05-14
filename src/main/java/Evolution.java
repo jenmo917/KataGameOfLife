@@ -15,6 +15,7 @@ public class Evolution {
     public void evolve(Board board) {
 
         evolutionBoard = board.clone();
+        evolutionBoard.killAll();
 
         for (Cell cell : board.getCells()) {
             List<Cell> neighbours = board.getNeighbours(cell);
